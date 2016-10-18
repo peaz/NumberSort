@@ -13,6 +13,8 @@ var errEmptyBody = {error:"Did you send something?"};
 var errNotArray = {error:"The input is not an array"};
 var errInvalidData = {error:"Looks like the data isn't a valid JSON object"};
 
+app.set('port', (process.env.PORT || 5000));
+
 app.post('/sort', jsonParser, function (req, res) {
   if (!req.is('application/json')) return res.status(415).json(errNotJson);
   if (!req.body.length) return res.status(400).json(errEmptyBody);
@@ -30,8 +32,8 @@ app.post('/sort', jsonParser, function (req, res) {
   }
 });
 
-app.listen(8081, function () {
-  console.log('API started on port 8081!');
+app.listen(app.get('port'), function () {
+  console.log('API started on port: ' + app.get('port'));
 });
 
 
