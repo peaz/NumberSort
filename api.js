@@ -16,7 +16,7 @@ var errInvalidData = {error:"Looks like the data isn't a valid JSON object"};
 app.set('port', (process.env.PORT || 8081));
 
 app.post('/sort', jsonParser, function (req, res) {
-  if (!req.is('application/json')) return res.status(415).json(errNotJson);
+  if (!(req.is('application/json')||req.is('application/json; charset=utf-8'))) return res.status(415).json(errNotJson);
   if (!req.body.length) return res.status(400).json(errEmptyBody);
 
   var payload = req.body;
