@@ -13,7 +13,7 @@ var errEmptyBody = {error:"Did you send something?"};
 var errNotArray = {error:"The input is not an array"};
 var errInvalidData = {error:"Looks like the data isn't a valid JSON object"};
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 8081));
 
 app.post('/sort', jsonParser, function (req, res) {
   if (!req.is('application/json')) return res.status(415).json(errNotJson);

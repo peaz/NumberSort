@@ -1,23 +1,22 @@
 #%RAML 0.8
 title: Number Sorter
 version: v1
-baseUri: http://api.atpeaz.com/{version}
+baseUri: https://numbersort.herokuapp.com
 /sort:
   description: Sorts an array of integers between 1-1000
   post:
     body:
       application/json:
         example: !include examples/unsorted.json
-        schema: !include schemas/unsorted.json
+        schema: !include schemas/arrayInt.json
     responses:
       200:
         body:
           application/json:
             example: !include examples/sorted.json
-            schema: !include schemas/sorted.json
+            schema: !include schemas/arrayInt.json
       500:
         body:
           application/json:
             example: !include examples/error.json
             schema: !include schemas/error.json
-    
