@@ -8,7 +8,7 @@ var minRange = 1;
 var maxRange = 1000;
 
 //Predefining some error messages
-var errNotJson = {error:"The POST request body is not application/json type"};
+var errNotAppJson = {error:"Content-Type is not 'application/json'. Please send a valid Content-Type header."};
 var errEmptyBody = {error:"Did you send something?"};
 var errNotArray = {error:"The input is not an array"};
 var errInvalidData = {error:"Looks like the data isn't a valid JSON object"};
@@ -16,7 +16,7 @@ var errInvalidData = {error:"Looks like the data isn't a valid JSON object"};
 app.set('port', (process.env.PORT || 8081));
 
 app.post('/sort', jsonParser, function (req, res) {
-  if (!(req.is('application/json')||req.is('application/json; charset=utf-8'))) return res.status(415).json(errNotJson);
+  if (!(req.is('application/json')||req.is('application/json; charset=utf-8'))) return res.status(415).json(errNotAppJson);
   if (!req.body.length) return res.status(400).json(errEmptyBody);
 
   var payload = req.body;
