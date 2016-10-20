@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var https = require('https');
+var querystring = require('querystring');
 
 var app = express();
 var jsonParser = bodyParser.json({ type: 'application/json' });
@@ -23,9 +25,12 @@ app.post('/sort', jsonParser, function (req, res) {
   console.log('Body: ' + JSON.stringify(payload));
 
   if (Array.isArray(payload)){
+    //looks good, lets sort this payload
     var sorted = insertionSort(payload);
     console.log('Sorted: ' + sorted);
     res.json(sorted);
+    //Send a message to yours truly so I know someone hit this API
+    sendNotificationTwilio(req.ip,sorted);
   }
   else {
     res.json(errNotArray);
@@ -54,6 +59,41 @@ function insertionSort(payload) {
       payload[j + 1] = tmp;
     }
     return payload;
+}
+
+function sendNotificationTwilio(ip,sorted) {
+
+  //create the SMS message payload
+  var postData = querystring.stringify({
+    'From' : '+12565307073',
+    'To' : '+6593625120',
+    'Body' : 'Someone from IP[' + ip + '] sorted ' + sorted
+  });
+
+  //setup the Post request
+  var postOptions = {
+      host: 'api.twilio.com',
+      port: '443',
+      path: '/2010-04-01/Accounts/ACad5dfb32d80b91028547f0569ffcb469/Messages.json',
+      method: 'POST',
+      auth: 'ACad5dfb32d80b91028547f0569ffcb469:e463850ff3c5cb344d5be2f69cd87c12',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+      }
+  };
+
+  var twilioReq = https.request(postOptions, function(twilioRes) {
+    twilioRes.setEncoding('utf8');
+    twilioRes.on('data', function(chunk) {
+      console.log('Twilio Response: ' + chunk);
+    });
+  });
+
+  //send the post to Twilio!
+  twilioReq.write(postData);
+  twilioReq.end();
+
 }
 
 //Error Handling
