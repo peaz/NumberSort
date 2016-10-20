@@ -25,12 +25,9 @@ Connection: close
 [1,2,10,13,45,123,415,1000]
 ```
 
-The API also sends out an SMS notification (using Twilio) when the API is called.
-
 You can find the interactive API Documentation [here](https://anypoint.mulesoft.com/apiplatform/kenng/#/portals/organizations/d2983a9b-bcdf-4431-88d0-ce04916f9d4c/apis/5962361/versions/105913/pages/158364) to test the API endpoint from this API Portal too.
 
 #What's powering the API
 - Implemented Node.js with the Express framework
 - Deployed on Heroku
 - API documented in RAML and API Portal is powered by MuleSoft Anypoint Platform
-- SMS notification powered by Twilio
